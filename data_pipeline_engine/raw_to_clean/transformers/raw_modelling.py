@@ -1,9 +1,7 @@
 from mage_ai.data_cleaner.transformer_actions.base import BaseAction
 from mage_ai.data_cleaner.transformer_actions.constants import ActionType, Axis
 from mage_ai.data_cleaner.transformer_actions.utils import build_transformer_action
-from pandas import DataFrame
 import pandas as pd
-from datetime import datetime
 
 if 'transformer' not in globals():
     from mage_ai.data_preparation.decorators import transformer
@@ -16,17 +14,13 @@ def execute_transformer_action(data_frames: dict, *args, **kwargs) -> dict:
     Transform data based on table-specific rules and create the new dataframe
     with DIM_PRODUCTO, FCT_ORDERS, and FCT_ORDERS_PRODUCTO.
     """
+    
     # Cargar las tablas de entrada
-    if 'PRODUCTS' in data_frames:
-        df_products = data_frames['PRODUCTS']
-    if 'AISLES' in data_frames:
-        df_aisles = data_frames['AISLES']
-    if 'DEPARTMENTS' in data_frames:
-        df_departments = data_frames['DEPARTMENTS']
-    if 'INSTACART_ORDERS' in data_frames:
-        df_instacart_orders = data_frames['INSTACART_ORDERS']
-    if 'ORDER_PRODUCTS' in data_frames:
-        df_order_products = data_frames['ORDER_PRODUCTS']
+    df_products = data_frames.get('PRODUCTS', pd.DataFrame())
+    df_aisles = data_frames.get('AISLES', pd.DataFrame())
+    df_departments = data_frames.get('DEPARTMENTS', pd.DataFrame())
+    df_instacart_orders = data_frames.get('INSTACART_ORDERS', pd.DataFrame())
+    df_order_products = data_frames.get('ORDER_PRODUCTS', pd.DataFrame())
         
     # Crear la tabla DIM_PRODUCTO:
     df_dim_producto = df_products.copy()
@@ -34,7 +28,10 @@ def execute_transformer_action(data_frames: dict, *args, **kwargs) -> dict:
     # Merge con AISLES y DEPARTMENTS para obtener los nombres
     df_dim_producto = df_dim_producto.merge(df_aisles[['AISLE_ID', 'AISLE']], on='AISLE_ID', how='left')
     df_dim_producto = df_dim_producto.merge(df_departments[['DEPARTMENT_ID', 'DEPARTMENT']], on='DEPARTMENT_ID', how='left')
-    
+
+    # Eliminar las columnas AISLE_ID y DEPARTMENT_ID
+    df_dim_producto.drop(columns=['AISLE_ID', 'DEPARTMENT_ID'], inplace=True)
+
     # Crear la tabla FCT_ORDERS (misma que INSTACART_ORDERS):
     df_fct_orders = df_instacart_orders.copy()
     df_fct_orders['FECHA'] = pd.to_datetime('today').strftime('%Y-%m-%d')  # Añadir la columna FECHA
@@ -50,6 +47,7 @@ def execute_transformer_action(data_frames: dict, *args, **kwargs) -> dict:
     }
     
     return new_data_frames
+
 @test
 def test_output(output, *args) -> None:
     """

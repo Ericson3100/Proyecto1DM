@@ -1,7 +1,6 @@
 from mage_ai.settings.repo import get_repo_path
 from mage_ai.io.config import ConfigFileLoader
 from mage_ai.io.snowflake import Snowflake
-from pandas import DataFrame
 from os import path
 
 if 'data_exporter' not in globals():
@@ -10,12 +9,6 @@ if 'data_exporter' not in globals():
 
 @data_exporter
 def export_data_to_snowflake(new_data_frames, **kwargs) -> None:
-    """
-    Template for exporting data to a Snowflake warehouse.
-    Specify your configuration settings in 'io_config.yaml'.
-
-    Docs: https://docs.mage.ai/design/data-loading#snowflake
-    """
     database = 'INSTACART_DB'
     schema = 'CLEAN'
     config_path = path.join(get_repo_path(), 'io_config.yaml')

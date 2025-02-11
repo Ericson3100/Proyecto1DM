@@ -1,0 +1,95 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    file_source:
+      path: data_loaders/data_loader_clean.py
+  downstream_blocks:
+  - raw_cleaning
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: data_loader_clean
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_loader
+  upstream_blocks: []
+  uuid: data_loader_clean
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    file_source:
+      path: transformers/raw_cleaning.py
+  downstream_blocks:
+  - raw_modelling
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: raw_cleaning
+  retry_config: null
+  status: executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - data_loader_clean
+  uuid: raw_cleaning
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - data_exporter_clean
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: raw_modelling
+  retry_config: null
+  status: executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - raw_cleaning
+  uuid: raw_modelling
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: data_exporter_clean
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - raw_modelling
+  uuid: data_exporter_clean
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2025-02-11 06:28:42.816157+00:00'
+data_integration: null
+description: ''
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: raw_to_clean
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags: []
+type: python
+uuid: raw_to_clean
+variables_dir: /root/.mage_data/default_repo
+widgets: []

@@ -1,8 +1,7 @@
 from mage_ai.settings.repo import get_repo_path
 from mage_ai.io.config import ConfigFileLoader
-from mage_ai.io.snowflake import Snowflake  # Importamos correctamente Snowflake
+from mage_ai.io.snowflake import Snowflake 
 from os import path
-from pandas import DataFrame
 
 
 if 'data_loader' not in globals():

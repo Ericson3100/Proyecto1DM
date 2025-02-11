@@ -1,10 +1,7 @@
 from mage_ai.settings.repo import get_repo_path
 from mage_ai.io.config import ConfigFileLoader
-from mage_ai.io.mysql import MySQL
 from mage_ai.io.snowflake import Snowflake
 from os import path
-from pandas import DataFrame
-
 
 if 'data_exporter' not in globals():
     from mage_ai.data_preparation.decorators import data_exporter

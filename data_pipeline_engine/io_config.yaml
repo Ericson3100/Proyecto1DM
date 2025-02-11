@@ -5,9 +5,9 @@ default:
 
   # MySQL
   MYSQL_DATABASE: instacart_db
-  MYSQL_HOST: 192.168.1.12
+  MYSQL_HOST: "{{env_var('DB_IP')}}"
   MYSQL_PASSWORD: "{{env_var('DB_PASSWORD')}}"
-  MYSQL_PORT: 3306
+  MYSQL_PORT: "{{env_var('DB_PORT')}}"
   MYSQL_USER: "{{env_var('DB_USER')}}"
   # Snowflake
   SNOWFLAKE_USER: "{{env_var('SNOW_USER')}}"
